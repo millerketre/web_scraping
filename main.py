@@ -1,26 +1,31 @@
 import yfinance as yf
+import requests
+from prettyprinter import pprint
+ 
 
-def main():
-    # Replace 'AAPL' with any ticker symbol you want to fetch data for
-    ticker_symbol = 'AAPL'
-    
-    # Fetching data for the specified ticker symbol
-    stock_data = yf.Ticker(ticker_symbol)
-    
-    # Printing basic information about the stock
-    print("Stock Info:")
-    print("-----------")
-    print("Ticker Symbol:", stock_data.info['symbol'])
-    print("Company Name:", stock_data.info['longName'])
-    print("Exchange:", stock_data.info['exchange'])
-    print("Sector:", stock_data.info['sector'])
-    print("Industry:", stock_data.info['industry'])
-    print("\n")
+requests.packages.urllib3.disable_warnings()
+ 
+session = requests.Session()
+session.verify = False
+ 
+symbol_input = yf.Ticker(input("enter company symbol: ").upper(), session=session)
 
-    # Printing recent historical data
-    print("Recent Historical Data (Last 5 days):")
-    print("--------------------------------------")
-    print(stock_data.history(period='5d'))
-    
-if __name__ == "__main__":
-    main()
+info_keys = ['longName', 'industry', 'country', 'state', 'fullTimeEmployees', 'marketCap', 'exchange', 'totalRevenue', 'heldPercentInsiders']
+
+info = {}
+for key in info_keys:
+    info[key] = symbol_input.info.get(key, None)
+
+pprint(info)
+
+# longName = symbol_input.info['longName']
+# industry = symbol_input.info['industry']
+# domicile_country = symbol_input.info['country']
+# domicile_state = symbol_input.info['state']
+# headcount = symbol_input.info['fullTimeEmployees']
+# market_cap = symbol_input.info['marketCap']
+# exchange = symbol_input.info['exchange']
+# revenue = symbol_input.info['totalRevenue']
+# retention = symbol_input.info['heldPercentInsiders']
+
+# print(longName, industry, domicile_country, domicile_state, headcount, market_cap, exchange, revenue, retention)
