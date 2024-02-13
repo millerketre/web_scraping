@@ -8,7 +8,7 @@ requests.packages.urllib3.disable_warnings()
 session = requests.Session()
 session.verify = False
  
-symbol_input = yf.Ticker(input("enter company symbol: "), session=session)
+symbol_input = yf.Ticker(input("enter company symbol: ").upper(), session=session)
 
 info_keys = ['longName', 'industry', 'country', 'state', 'fullTimeEmployees', 'marketCap', 'exchange', 'totalRevenue', 'heldPercentInsiders']
 
