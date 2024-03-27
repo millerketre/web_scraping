@@ -36,10 +36,10 @@ def retrieve_email():
                 break
 
 def retrieve_company():
+    company_names=[]
     outlook = win32com.client.Dispatch("Outlook.Application").GetNamespace("MAPI")
     for folder in outlook.Folders:
        for subfolder in folder.Folders:
-        print(f"Subfolder Name: {subfolder.Name}")
         if subfolder.Name == "Inbox":
             for item in subfolder.Items:
                 if item.Subject == "test":
@@ -47,12 +47,15 @@ def retrieve_company():
                     body_lines = item.Body.split("\n")
                     for line in body_lines:
                         if "Company:" in line:
-                          company_value = line.split(":")[1].strip()
-                        print(company_value)
-                        return company_value 
-                    else: break
+                           name = line.split(":")[1].strip()
+                           company_names.append(name)
+                        
+                        
+                       
+    return company_names
+                    
          
          
                
-retrieve_email()      
-retrieve_company()
+    
+print(retrieve_company())
